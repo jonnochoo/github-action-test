@@ -25,20 +25,15 @@ jobs:
         uses: actions/checkout@v2
 
       # The "Bump version" step updates Git so we need to setup the Git config first
-      - name: Setup Git
+      - name: Run
         run: |
-          branchName=version/${{ github.event.inputs.versionIncrement }}
+          branchName="version/${{ github.event.inputs.versionIncrement }}"
           echo "$branchName"
           git config --local user.email "dev+${{ github.actor }}@irwinsolutions.com"
           git config --local user.name "${{ github.actor }}"          
           git branch "$branchName"
-
-      - name: Bump version
-        run: npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s"
-
-      - name: Commit changes
-        run: |
-          git push
+          npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s"
+          git push          
 
       - name: Create a pull request
         run: |

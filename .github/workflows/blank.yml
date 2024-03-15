@@ -23,8 +23,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # The "Bump version" step updates Git so we need to setup the Git config first
+      
       - name: Run
         run: |
           git config --local user.email "dev+${{ github.actor }}@irwinsolutions.com"

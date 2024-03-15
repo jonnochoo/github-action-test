@@ -1,0 +1,39 @@
+name: Bump Version and Create PR
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        bump_type: [minor, major, patch]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Bump version
+      run: npm version ${{ matrix.bump_type }}
+      env:
+        BUMP_TYPE: ${{ matrix.bump_type }}
+
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Bump version to $BUMP_TYPE"
+        git push

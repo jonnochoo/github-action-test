@@ -28,21 +28,23 @@ jobs:
         run: |
           git config --local user.email "dev+${{ github.actor }}@irwinsolutions.com"
           git config --local user.name "${{ github.actor }}"          
-                    
+
+          # Override the default npm version to commit the package.json version bump (as we want it on a different branch)
           npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s" --git-tag-version false
-          git checkout -- .
-          
+
+          # Grab the "new" version from the pcakage.json
           version=$(cat package.json | jq -r '.version')
           echo "Set version: $version"
-          
+
+          # Create the new branch
           branchName="version/$version"
           echo "Creating a branch: $branchName"          
           git checkout -b "$branchName"
-          
-          npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s"
-          
+
+          # Push the changes
           git push -u origin "$branchName"
-          
+
+          # Create a PR request
           gh pr create -B dev -H $branchName --title 'Deploy $version' --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

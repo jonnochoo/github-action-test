@@ -27,13 +27,19 @@ jobs:
       # The "Bump version" step updates Git so we need to setup the Git config first
       - name: Run
         run: |
-          branchName="version/${{ github.event.inputs.versionIncrement }}"
-          echo "$branchName"
           git config --local user.email "dev+${{ github.actor }}@irwinsolutions.com"
           git config --local user.name "${{ github.actor }}"          
+                    
+          npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s" --git-tag-version false
+          
+          version=$(cat package.json | jq -r '.version')
+          echo "Set version: $version"
+          
+          branchName="version/${{ github.event.inputs.versionIncrement }}"
+          echo "Creating a branch: $branchName"          
           git branch "$branchName"
-          npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s"
-          git push          
+          
+          git push -u origin "$branchName"
 
       - name: Create a pull request
         run: |

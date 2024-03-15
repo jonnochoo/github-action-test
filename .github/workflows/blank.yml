@@ -1,9 +1,7 @@
 name: Bump Version and Create PR
 
 on:
-  push:
-    branches:
-      - dev
+  workflow_dispatch:
 
 jobs:
   bump-version:

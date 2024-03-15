@@ -1,4 +1,4 @@
-name: Bump Version and Create PR
+name: 🤖Bump Version and Create PR
 
 on:
   workflow_dispatch:
@@ -44,16 +44,12 @@ jobs:
 
           # Push the changes
           git add .
-          git commit -m "deploy: $version"
+          git commit -m "version: $version"
           git push -u origin "$branchName"
 
           # Create a PR request
-          prUrl=$(gh pr create -B dev -H $branchName --title "Deploy $version" --body 'Created by Github action')
+          prUrl=$(gh pr create -B dev -H $branchName --title "$version" --body 'Created by Github action')
           prId=$(echo "$prUrl" | sed 's/.*\///;s/[^0-9]*$//')
-          echo "Create a PR at $prUrl with $prId"
-
-           gh pr review --approve
-           gh pr merge
-          
+          echo "Create a PR at $prUrl with $prId"          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -50,6 +50,10 @@ jobs:
           # Create a PR request
           prUrl=$(gh pr create -B dev -H $branchName --title "$version" --body 'Created by Github action')
           prId=$(echo "$prUrl" | sed 's/.*\///;s/[^0-9]*$//')
-          echo "Create a PR at $prUrl with $prId"          
+          echo "Create a PR at $prUrl with $prId"
+
+          ## Add to project
+          gh pr edit <pr-number> --project <project-id> --column <column-id>
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

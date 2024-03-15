@@ -37,8 +37,8 @@ jobs:
           
           branchName="version/$version"
           echo "Creating a branch: $branchName"          
-          git branch "$branchName"
-
+          git checkout -b "$branchName"
+          
           npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s"
           
           git push -u origin "$branchName"

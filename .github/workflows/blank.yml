@@ -23,20 +23,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: create pull request
-        run: gh pr create -B master -H dev --title 'Merge dev into mater' --body 'Created by Github action'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
 
-      # The  "Bump version" step updates Git so we need to setup the Git config first
+      # The "Bump version" step updates Git so we need to setup the Git config first
       - name: Setup Git
         run: |
           git config --local user.email "dev+${{ github.actor }}@irwinsolutions.com"
           git config --local user.name "${{ github.actor }}"
+          git branch version/${{ github.event.inputs.versionIncrement }}
 
       - name: Bump version
-        run: npm version ${{ github.event.inputs.versionIncrement }}
+        run: npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s"
 
       - name: Commit changes
         run: |
           git push
+
+      - name: Create a pull request
+        run: |
+          version=cat package.json | jq -r '.version'
+          gh pr create -B master -H dev --title 'Deploy $version' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

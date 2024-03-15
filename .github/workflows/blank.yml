@@ -48,6 +48,6 @@ jobs:
           git push -u origin "$branchName"
 
           # Create a PR request
-          gh pr create -B dev -H $branchName --title "Deploy $version" --body 'Created by Github action'
+          gh pr create -B dev -H $branchName --title "Deploy $version" --body 'Created by Github action\nOnce you Merge this PR it will trigger a auto PR in master which will DEPLOY this app'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -30,7 +30,7 @@ jobs:
           git config --local user.name "${{ github.actor }}"          
 
           # Override the default npm version to commit the package.json version bump (as we want it on a different branch)
-          npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s" --git-tag-version false
+          npm version ${{ github.event.inputs.versionIncrement }} --git-tag-version false
 
           # Grab the "new" version from the pcakage.json
           version=$(cat package.json | jq -r '.version')
@@ -42,6 +42,8 @@ jobs:
           git checkout -b "$branchName"
 
           # Push the changes
+          git add .
+          git commit -m "deploy: $version"
           git push -u origin "$branchName"
 
           # Create a PR request

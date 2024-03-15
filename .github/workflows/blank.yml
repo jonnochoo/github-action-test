@@ -28,10 +28,10 @@ jobs:
       - name: Setup Git
         run: |
           branchName=version/${{ github.event.inputs.versionIncrement }}
-          echo $branchName
+          echo "$branchName"
           git config --local user.email "dev+${{ github.actor }}@irwinsolutions.com"
           git config --local user.name "${{ github.actor }}"          
-          git branch $branchName
+          git branch "$branchName"
 
       - name: Bump version
         run: npm version ${{ github.event.inputs.versionIncrement }} -m "[DEPLOY] %s"

@@ -48,7 +48,7 @@ jobs:
           git push -u origin "$branchName"
 
           # Create a PR request
-          prUrl=$(gh pr create -B dev -H $branchName --title "Deploy $version" --body 'Created by Github action)          
+          prUrl=$(gh pr create -B dev -H $branchName --title "Deploy $version" --body 'Created by Github action')          
           prId=$(echo "$url" | sed 's/.*\///;s/[^0-9]*$//')
           echo "Create a PR at $prUrl with $prId"
           

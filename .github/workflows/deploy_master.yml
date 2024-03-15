@@ -1,8 +1,6 @@
-name: Deploy Using Master
+name: 🤖 Create PR (Merge dev to master)
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "dev" branch
   push:
     branches: [ "master" ]
 

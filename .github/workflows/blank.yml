@@ -26,13 +26,14 @@ jobs:
       
       - name: Run
         run: |
+          # Sets the user who runs the workflow as the person makes the commit
           git config --local user.email "dev+${{ github.actor }}@irwinsolutions.com"
           git config --local user.name "${{ github.actor }}"          
 
           # Override the default npm version to commit the package.json version bump (as we want it on a different branch)
           npm version ${{ github.event.inputs.versionIncrement }} --git-tag-version false
 
-          # Grab the "new" version from the pcakage.json
+          # Grab the "new" version from the package.json
           version=$(cat package.json | jq -r '.version')
           echo "Set version: $version"
 
@@ -47,6 +48,6 @@ jobs:
           git push -u origin "$branchName"
 
           # Create a PR request
-          gh pr create -B dev -H $branchName --title 'Deploy $version' --body 'Created by Github action'
+          gh pr create -B dev -H $branchName --title "Deploy $version" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

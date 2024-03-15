@@ -55,5 +55,7 @@ jobs:
           ## Add to project
           gh pr edit <pr-number> --project <project-id> --column <column-id>
 
+          ## Slack notification
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

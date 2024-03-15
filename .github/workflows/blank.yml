@@ -2,31 +2,24 @@ name: Bump Version and Create PR
 
 on:
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: Version Increment
+        options: 
+        - major
+        - minor
+        - patch
 jobs:
   bump-version:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        bump_type: [minor, major, patch]
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-
+      
     - name: Bump version
-      run: npm version ${{ matrix.bump_type }}
-      env:
-        BUMP_TYPE: ${{ matrix.bump_type }}
+      run: npm version ${{ github.event.inputs.message }}
 
     - name: Commit changes
       run: |

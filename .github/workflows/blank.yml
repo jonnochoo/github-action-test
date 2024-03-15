@@ -37,6 +37,9 @@ jobs:
           branchName="version/$version"
           echo "Creating a branch: $branchName"          
           git branch "$branchName"
+
+          git add .
+          git commit -m "version: $version"
           
           git push -u origin "$branchName"
           

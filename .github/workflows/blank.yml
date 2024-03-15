@@ -22,8 +22,6 @@ on:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
-            with:
-            token: ${{ secrets.WORKFLOW_GIT_ACCESS_TOKEN }}
 
         - name: Setup Git
           run: |

@@ -35,6 +35,4 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add .
-          git commit -m "Bump version to ${{ github.event.inputs.versionIncrement }}"
           git push

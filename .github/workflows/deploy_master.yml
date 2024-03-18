@@ -2,7 +2,7 @@ name: 🤖 Create PR (Merge dev to master)
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "dev" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

@@ -18,4 +18,14 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo run
+          # Grab the "latest" version from the package.json
+          version=$(cat package.json | jq -r '.version')
+          echo "Set version: $version"
+          
+          # Create a PR request
+          prUrl=$(gh pr create -B master -H dev --title "Deploy dev to master with $version" --body 'Created by Github action')
+          prId=$(echo "$prUrl" | sed 's/.*\///;s/[^0-9]*$//')
+          echo "Create a PR at $prUrl with $prId"
+
+          ## Add to project
+          # gh pr edit <pr-number> --add-assignee ""

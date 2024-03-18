@@ -6,12 +6,14 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+      
 jobs:
   build:  
     # TODO: We'll later make this trigger based on the commit message, not sure if this is robust enough
     # if: "contains(github.event.head_commit.message, 'deploy:')"
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3

@@ -1,0 +1,36 @@
+name: 🤖 Create PR (Merge dev to master)
+
+on:
+  push:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+      
+jobs:
+  build:  
+    # TODO: We'll later make this trigger based on the commit message, not sure if this is robust enough
+    # if: "contains(github.event.head_commit.message, 'deploy:')"
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          # Grab the "latest" version from the package.json
+          version=$(cat package.json | jq -r '.version')
+          echo "Set version: $version"
+          
+          # Create a PR request
+          prUrl=$(gh pr create -B master -H dev --title "Deploy dev to master with $version" --body 'Created by Github action')
+          prId=$(echo "$prUrl" | sed 's/.*\///;s/[^0-9]*$//')
+          echo "Create a PR at $prUrl with $prId"
+
+          ## Add to project
+          # gh pr edit <pr-number> --add-assignee ""
+        env:
+          GH_TOKEN: ${{ github.token }}         

@@ -8,8 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    # if: "startsWith(github.event.head_commit.message, 'deploy:')"
+  build:  
+    # TODO: We'll later make this trigger based on the commit message, not sure if this is robust enough
+    # if: "contains(github.event.head_commit.message, 'deploy:')"
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -29,3 +30,5 @@ jobs:
 
           ## Add to project
           # gh pr edit <pr-number> --add-assignee ""
+        env:
+          GH_TOKEN: ${{ github.token }}         

@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    if: "startsWith(github.event.head_commit.message, 'deploy:')"
+    # if: "startsWith(github.event.head_commit.message, 'deploy:')"
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
